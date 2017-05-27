@@ -56,10 +56,7 @@ def answer(command):
             # trying to remove a revision of the file
             revision=int(targetFileName[-3:][1:2])
             fileNameSansRevision=targetFileName[:-3]
-            for i in files[fileNameSansRevision]:
-                if i==revision:
-                    i='Removed'
-                    break
+            files[fileNameSansRevision][revision]='Removed'
         else:
             files[targetFileName][0]='Removed'
 
@@ -70,7 +67,7 @@ def answer(command):
             count=0
             for i in files[renamedFileName]:
                 if i=='Removed':
-                    i=count
+                    files[fileName][count]=count
                     flag=1
                     break
                 count+=1
