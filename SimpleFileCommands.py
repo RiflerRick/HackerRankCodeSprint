@@ -65,6 +65,7 @@ def answer(command):
         if renamedFileName in files:
             # here we need to search for the least value in the list of files
             count=0
+            flag=0
             for i in files[renamedFileName]:
                 if i=='Removed':
                     files[fileName][count]=count
@@ -79,7 +80,7 @@ def answer(command):
             renamedFileOutput=renamedFileName
         output = ('r '+str(targetFileName)+' -> '+str(renamedFileOutput))
 
-    print(files)
+    # print(files)
     return output
 
 q = int(input().strip())
