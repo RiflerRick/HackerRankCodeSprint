@@ -12,21 +12,35 @@ def answer(command):
     if action=='create':
         fileName=command[commandLength+1:]
         if fileName in files:
-            numFiles=files[fileName]
-
-            output.append('+ '+fileName+'('+str(files[fileName]-1)+')')
+            # here we need to search for the least value in the list of files
+            count=0
+            for i in files[fileName]:
+                if files[fileName]=='Removed':
+                    files[fileName][count]=count
+                    flag=1
+                    break
+                count+=1
+            if flag!=1:
+                files[fileName].append(count)
+            output.append('+ '+fileName+'('+str(count)+')')
         else:
             files[fileName]=[0]
             output.append('+ '+fileName)
     elif action=='delete':
         fileName=command[commandLength+1:]
-        files[fileName]-=1
-        if files[fileName]!=0:
-            output.append('- '+fileName+'('+str(files[fileName]-1)+')')
+        if fileName[-1:]==')':
+            # it means we are required to delete an revision of the file
+            revision=int(fileName[-3:][1:2])
+            fileNameSansRevision=fileName[:-3].strip()
+            for i in files[fileNameSansRevision]:
+                if i==revision:
+                    i='Removed'
+                    break
+            output.append('- '+str(fileName))
         else:
-            output.append('- '+fileName)
-    elif action=='rename':
-        
+            for i in files[fileName]:
+                files[fileName][0]='Removed'
+            output.append('- '+str(fileName))
 
 q = int(input().strip())
 # Process each command
